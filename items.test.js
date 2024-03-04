@@ -17,11 +17,8 @@ describe("GET /items", function() {
     let response = await request(app).get('/items');
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({items: [coffee]});
-    
   });
-});
 
-describe("GET /tacos", function() {
   it("shows error when something is not found", async function () {
     let response = await request(app).get('/tacos');
     expect(response.statusCode).toBe(404);
@@ -39,22 +36,21 @@ describe("GET /items/coffee", function() {
   });
 });
 
-describe("DELETE /items/coffee", function() {
+describe("DELETE /items", function() {
   it("deletes coffee JSON", async function() {
     let response = await request(app).delete('/items/coffee');
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({message: 'Deleted'});
     expect(items.length).toEqual(0);
   });
-});
 
-describe("DELETE /items/tacos", function() {
   it("shows error when something is not found in delete request", async function () {
     let response = await request(app).delete('/items/tacos');
     expect(response.statusCode).toBe(404);
     expect(response.body.error.message).toEqual("Oops! Could not find item!");
   });
 });
+
 
 describe("POST /items", function() {
   it("adds tea to items", async function() {
@@ -63,9 +59,7 @@ describe("POST /items", function() {
     expect(response.body).toEqual({added: {name: 'tea', price: 1.25}});
     expect(items.length).toEqual(2);
   });
-});
 
-describe("POST /items", function() {
   it("shows error when something is missing in post request", async function () {
     let response = await request(app).post('/items').send({name: 'tea', price: ""});
     expect(response.statusCode).toBe(400);
@@ -74,9 +68,7 @@ describe("POST /items", function() {
     expect(response.statusCode).toBe(400);
     expect(response.body.error.message).toEqual('Oops! An item needs a name!');
   });
-});
 
-describe("POST /items", function() {
   it("shows error when adding a duplicate item", async function () {
     let response = await request(app).post('/items').send({name: 'coffee', price: 3});
     expect(response.statusCode).toBe(400);
